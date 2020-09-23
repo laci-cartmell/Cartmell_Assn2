@@ -22,8 +22,8 @@ cut -f1,3,4 BTS_data.txt | head -n1 > output
 for snake in $(cat BTS_data.txt)
 	# need to specify file and can do so with cat
 do
-	grep {*010...089} | cut -f1,3,4 >> reversetrap on $snake
-
+	grep -E BTS0[1-8] | cut -f1,3,4 >> reversetrap $snake
+		#should return the wanted range of snakes 
 	sort -k4 -nr reversetrap
 done
 
