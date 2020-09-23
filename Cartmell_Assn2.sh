@@ -9,17 +9,23 @@
 
 # for files *010-089, cut -f1,3,4 >> reversetrap
 
+
+
+
 cd ../unix_2_files
 	# need in this directory to access files
 
 cut -f1,3,4 BTS_data.txt | head -n1 > output
 	#gets the headers for the columns and writes to new file
 
-for snake in {*010...*089}
-	#? do i need to specify file
-do 
-	cut -f1,3,4 >> reverse trappability on $variable
 
-#	sort -f4 -r
-then 
-	sort 
+for snake in $(cat BTS_data.txt)
+	# need to specify file and can do so with cat
+do
+	grep {*010...089} | cut -f1,3,4 >> reversetrap on $snake
+
+	sort -k4 -nr reversetrap
+done
+
+column -t reversetrap
+
