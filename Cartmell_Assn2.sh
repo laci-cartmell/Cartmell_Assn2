@@ -1,31 +1,43 @@
+
+
 #! /bin/bash
 #
-# Extract ID, Year, Trappability from BTS_data.txt for 13BTS010 -- 13BTS089
-#	write to single output file(.gz) that is reverse sorted by Trappability, includes three columns
+# +  Extract ID, Year, Trappability from BTS_data.txt for 13BTS010 -- 13BTS089
+#	write to single output file, then later to a (.gz) that is reverse sorted by Trappability, includes three columns#
 
-# go into directory, pull needed headers and add to a new file.
-# make a loop  - for any snake 13BTS010 through 13BTS089, cut needed columns, append to the file reversetrappability
-# then sort by reverse, cat output to output by appending it.....after all other parts are done, use column -t and >> to append to original file. Then close loop, and remove reversetrap file.
+# ? have a parent script make child script
+	# I think I have it figured out, but still stuck on the why part
 
-# for files *010-089, cut -f1,3,4 >> reversetrap
+# + go into directory, pull needed headers and add to a new file.
+# + make a for loop, any snake 13BTS010 through 13BTS089, append to the file reversetrap, close loop
+# + then sort by reverse, cut needed columns, column -t and append to output
+# + Tidy up - remove reversetrap and zip output file
+
+# Push from local to remote GitHup repo.
 
 
+touch childscript_assn2.sh
+	#makes child script, which will essentially be a clean version of the parent
 
-
-cd ../unix_2_files
+echo "cd ../unix_2_files" > childscript_assn2.sh
 	# need in this directory to access files
 
-cut -f1,3,4 BTS_data.txt | head -n1 > output
+echo "cut -f1,2,4 BTS_data.txt | head -n1 > output" >> childscript_assn2.sh
 	#gets the headers for the columns and writes to new file
 
-
-for snake in $(cat BTS_data.txt)
-	# need to specify file and can do so with cat
+echo 	"for snake in BTS_data.txt
 do
-	grep -E BTS0[1-8] | cut -f1,3,4 >> reversetrap $snake
-		#should return the wanted range of snakes 
-	sort -k4 -nr reversetrap
-done
+	grep -E BTS0[1-8] $snake >> reversetrap
+done" >> childscript_assn2.sh
+	# specify location
+	## return wanted range of snakes & append to new file
 
-column -t reversetrap
+echo "sort -k4 -gr reversetrap | cut -f1,2,4 | column -t >> output" >> childscript_assn2.sh
+	# sorts, cuts, and makes pretty output
+echo "zip output.gz output" >> childscript_assn2.sh
+	# converts to .gz file
+echo "rm reversetrap" >> childscript_assn2.sh
+	# removes temporary file
+
+
 
