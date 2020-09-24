@@ -27,7 +27,7 @@ echo "cut -f1,2,4 BTS_data.txt | head -n1 > output" >> childscript_assn2.sh
 
 echo 	"for snake in BTS_data.txt
 do
-	grep -E BTS0[1-8] $snake >> reversetrap
+	grep -E BTS0[1-8]" '$snake' ">> reversetrap
 done" >> childscript_assn2.sh
 	# specify location
 	## return wanted range of snakes & append to new file
@@ -39,5 +39,10 @@ echo "zip output.gz output" >> childscript_assn2.sh
 echo "rm reversetrap" >> childscript_assn2.sh
 	# removes temporary file
 
+chmod u+x childscript_assn2.sh
+	# makes executable
+
+ ./childscript_assn2.sh
+	# actually allows it to run
 
 
